@@ -41,22 +41,44 @@ const Item = React.memo(({ data }) => {
 			</div>
 
 			<section
-				className={`overflow-hidden transition-[max-height] duration-1000 ${
+				className={`overflow-hidden transition-[max-height] mt-2 duration-1000 ${
 					isOpen ? 'max-h-96' : 'max-h-0'
 				}`}
 			>
 				<div className='mt-4 flex justify-between gap-2'>
-					{[1, 2].map(col => (
-						<div key={col} className='w-[49%]'>
-							<div className='flex gap-2'>
-								{data.players.map(player => (
+					<div className='w-[49%]'>
+						<div className='flex  gap-2'>
+							{data.players
+								.filter(player => player.team === 'home')
+								.map(player => (
 									<PlayerCard key={player.id} player={player} />
 								))}
-							</div>
-
-							<StatsRow stats={stats} />
 						</div>
-					))}
+						<StatsRow
+							stats={[
+								{ label: 'Points', value: data.points.home },
+								{ label: 'Rank', value: data.rank.home },
+								{ label: 'Total Kills', value: data.totalKills.home },
+							]}
+						/>
+					</div>
+
+					<div className='w-[49%]'>
+						<div className='flex  gap-2'>
+							{data.players
+								.filter(player => player.team === 'away')
+								.map(player => (
+									<PlayerCard key={player.id} player={player} />
+								))}
+						</div>
+						<StatsRow
+							stats={[
+								{ label: 'Points', value: data.points.away },
+								{ label: 'Rank', value: data.rank.away },
+								{ label: 'Total Kills', value: data.totalKills.away },
+							]}
+						/>
+					</div>
 				</div>
 			</section>
 		</div>

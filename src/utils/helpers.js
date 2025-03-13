@@ -5,24 +5,41 @@ export const getStatus = status => {
 }
 
 export const getStats = data => [
-	{ label: 'Points', value: `+${data.points}` },
-	{ label: 'Место', value: data.place },
-	{ label: 'Всего убийств', value: data.totalKills },
+	{ label: 'Points', value: `+${data.points.home} / +${data.points.away}` },
+	{ label: 'Место', value: `${data.rank.home} / ${data.rank.away}` },
+	{
+		label: 'Всего убийств',
+		value: `${data.totalKills.home} / ${data.totalKills.away}`,
+	},
 ]
 
-export const formatMatchData = match => ({
-	homeTeamName: match.homeTeam.name,
-	awayTeamName: match.awayTeam.name,
-	homeScore: match.homeScore,
-	awayScore: match.awayScore,
-	status: match.status,
-	players: match.homeTeam.players.map((player, i) => ({
-		id: i,
-		name: player.username,
-		kills: player.kills,
-		avatar: '',
-	})),
-	points: match.homeTeam.points,
-	rank: match.homeTeam.place,
-	totalKills: match.homeTeam.total_kills,
-})
+export const formatMatchData = match => {
+	const mapPlayers = (team, type) =>
+		team.players.map((player, i) => ({
+			id: `${type}-${i}`,
+			name: player.username,
+			kills: player.kills,
+			team: type,
+			avatar: '',
+		}))
+
+	return {
+		homeTeamName: match.homeTeam.name,
+		awayTeamName: match.awayTeam.name,
+		homeScore: match.homeScore,
+		awayScore: match.awayScore,
+		status: match.status,
+		players: [
+			...mapPlayers(match.homeTeam, 'home'),
+			...mapPlayers(match.awayTeam, 'away'),
+		],
+		points: { home: match.homeTeam.points, away: match.awayTeam.points },
+		rank: { home: match.homeTeam.place, away: match.awayTeam.place },
+		totalKills: {
+			home: match.homeTeam.total_kills,
+			away: match.awayTeam.total_kills,
+		},
+		matchTitle: match.title,
+		matchTime: match.time,
+	}
+}
