@@ -2,7 +2,7 @@
 
 **Match Tracker** — это веб-приложение для отслеживания матчей, их результатов и статистики игроков.
 
-- https://trading-seven-zeta.vercel.app/
+- [https://trading-seven-zeta.vercel.app/](https://match-tracker-ewnsueold-nikvois-projects.vercel.app/)
 
 ## 🚀 Функционал:
 
